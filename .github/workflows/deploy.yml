@@ -1,0 +1,77 @@
+name: CI/CD - Webdoc Insurance Portal API
+ 
+on:
+
+  push:
+
+    branches: [ "fahad" ]
+ 
+jobs:
+
+  build-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+
+        uses: actions/checkout@v3
+ 
+      - name: Setup .NET 8
+
+        uses: actions/setup-dotnet@v3
+
+        with:
+
+          dotnet-version: '8.0.x'
+ 
+      - name: Build
+
+        run: dotnet build --configuration Release
+ 
+      - name: Test
+
+        run: dotnet test --no-build --verbosity normal
+ 
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    needs: build-test
+
+    steps:
+
+      - name: Checkout Code
+
+        uses: actions/checkout@v3
+ 
+      - name: Deploy to Server via SSH
+
+        uses: appleboy/ssh-action@v1.0.0
+
+        with:
+
+          host: ${{ secrets.SERVER_IP }}
+
+          username: ${{ secrets.SERVER_USER }}
+
+          port: 22
+
+          key: ${{ secrets.SERVER_SSH_KEY }}
+
+          script: |
+
+            cd /opt/Docker/Webdoc_Insurance_Portal_API
+
+            # Stop and remove old container if exists
+
+            docker stop webdoc_insurance_portal_api || true && docker rm webdoc_insurance_portal_api || true
+
+            # Build new image directly on server
+
+            docker compose build --no-cache
+
+            # Run container with correct port mapping
+
+            docker compose up -d
