@@ -25,7 +25,7 @@ const SendSMS = () => {
 
     try {
       // Send the POST request to the API
-      const response = await axios.post(`http://digital.webdoc.com.pk:3100/api/sentsms/send-sms`, data, {
+      const response = await axios.post(`${SMSURL}/api/sentsms/send-sms`, data, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -74,7 +74,7 @@ const SendSMS = () => {
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card shadow-sm">
-            <div className="card-body">
+            {/* <div className="card-body">
               <h2 className="text-center mb-4">Send SMS</h2>
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
@@ -116,7 +116,7 @@ const SendSMS = () => {
                   <strong>{status}</strong>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -16,7 +16,9 @@ const ProductCreate = () => {
   const [planType, setPlanType] = useState("Daily Plan");
   const [coverage, setCoverage] = useState("");
   const [categoryName, setcategoryName] = useState("");
-  const [loading, setLoading] = useState(false);
+ const [webServiceUrl, setWebServiceUrl] = useState("");
+  const [externalId, setExternalId] = useState("");
+ const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -56,6 +58,8 @@ const ProductCreate = () => {
       planType,
       coverage,
       categoryName,
+      webServiceUrl,
+      externalId, 
     };
   
     try {
@@ -126,6 +130,7 @@ const ProductCreate = () => {
                       </option>
                       <option value="MiniApp">MiniApp</option>
                       <option value="Jazz">Jazz</option>
+                      <option value="Jazz Bundle and FG">Jazz Bundle and FG</option>
                       <option value="Ufone">Ufone</option>
                       <option value="UPaisa">UPaisa</option>
                       <option value="Zong">Zong</option>
@@ -212,6 +217,9 @@ const ProductCreate = () => {
                       required
                     />
                   </div>
+
+                
+
                   <div className="col-md-6 mb-3">
                     <label className="form-label">Category Name:</label>
                     <Select
@@ -264,7 +272,27 @@ const ProductCreate = () => {
                       isClearable
                     />
                   </div>
+  <div className="col-md-6 mb-3">
+                    <label className="form-label">Product Code :</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={webServiceUrl}
+                      onChange={(e) => setWebServiceUrl(e.target.value)}
+                      required
+                    />
+                  </div>
 
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label">Product Id:</label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      value={externalId}
+                      onChange={(e) => setExternalId(e.target.value)}
+                      required
+                    />
+                  </div>
                   <div className="col-md-12 mb-3">
                     <label className="form-label">Details/Features:</label>
                     <ReactQuill
@@ -289,6 +317,7 @@ const ProductCreate = () => {
                       etc.).
                     </small>
                   </div>
+
                 </div>
               </form>
             </div>

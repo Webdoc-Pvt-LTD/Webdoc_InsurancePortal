@@ -1,12 +1,7 @@
 // File: WHS_Subscription.js
 
 import React, { useState } from "react";
-import {
-  Button,
-  InputGroup,
-  Form,
-  Alert,
-} from "react-bootstrap";
+import { Button, InputGroup, Form, Alert } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import { BASE_URL } from "../../Config";
@@ -15,129 +10,178 @@ const WHS_Subscription = () => {
   const [msisdn, setMsisdn] = useState("");
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+
+  // ✅ SINGLE ALERT STATE (success / error / info)
+  const [alert, setAlert] = useState({
+    type: "",
+    message: "",
+  });
 
   const handleMsisdnChange = (e) => {
     setMsisdn(e.target.value);
   };
 
   const fetchWHSSubscriptions = async () => {
-    if (!msisdn) return;
+    if (!msisdn) {
+      setAlert({
+        type: "error",
+        message: "Please enter MSISDN before searching.",
+      });
+      return;
+    }
 
     setLoading(true);
-    setError(null);
-    try {
-      const apiUrl = `${BASE_URL}CheckServiceWHSSubscriptions?msisdn=${msisdn}`;
-      console.log("Requesting WHS Subscriptions from:", apiUrl);
+    setSubscriptions([]);
+    setAlert({ type: "", message: "" });
 
+    try {
+      const apiUrl = `${BASE_URL}CheckWHSSubscriptions?msisdn=${msisdn}`;
       const response = await axios.get(apiUrl);
 
-      if (response.data && Array.isArray(response.data.records)) {
-        setSubscriptions(response.data.records);
-      } else {
+      const data = response.data;
+
+      // ✅ No record case (business response)
+      if (data?.responseCode === "0001") {
+        setAlert({
+          type: "info",
+          message: data?.message || "No records found.",
+        });
         setSubscriptions([]);
-        setError("Invalid data format received from WHS Subscriptions.");
+        return;
+      }
+
+      // ✅ Success case
+      if (Array.isArray(data?.records) && data.records.length > 0) {
+        setSubscriptions(data.records);
+        setAlert({
+          type: "success",
+          message: `${data.records.length} record(s) loaded successfully.`,
+        });
+      } else {
+        setAlert({
+          type: "info",
+          message: "No data available.",
+        });
+        setSubscriptions([]);
       }
     } catch (err) {
-      console.error("Error fetching WHS Subscriptions:", err);
-      if (err.response) {
-        setError(
-          `WHS Fetch failed: ${err.response.status} - ${err.response.data}`
-        );
-      } else {
-        setError("Failed to fetch WHS data: Network issue or server error.");
-      }
+      const msg =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Server error occurred.";
+
+      setAlert({
+        type: "error",
+        message: `Error: ${msg}`,
+      });
     } finally {
       setLoading(false);
     }
   };
-const formatDate = (value) => {
-  if (!value) return "N/A";
-  const date = new Date(value);
-  if (isNaN(date.getTime())) return "Invalid Date";
 
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short", // "short" gives "Aug"
-    day: "2-digit", // gives "02"
-  });
-};
+  // ✅ Date formatter
+  const formatDate = (value) => {
+    if (!value) return "N/A";
+    const date = new Date(value);
+    if (isNaN(date.getTime())) return "Invalid Date";
 
-const columns = [
-  {
-   name: "Date",
-  selector: (row) => formatDate(row.date),
-  },
-  {
-    name: "Name",
-    selector: (row) => row.name ?? "N/A",
-    sortable: true,
-  },
-  {
-    name: "MSISDN",
-    selector: (row) => row.msisdn ?? "N/A",
-    sortable: true,
-  },
-  {
-    name: "DOB",
-    selector: (row) => row.dob ?? "N/A",
-    sortable: true,
-  },
-  {
-    name: "Amount",
-    selector: (row) => (row.amount != null ? row.amount : "-"),
-    sortable: true,
-  },
-  {
-    name: "Month/Year",
-    selector: (row) => row.monthYear ?? "N/A",
-    sortable: true,
-  },
-  {
-    name: "Status",
-    selector: (row) => row.status ?? "N/A",
-    sortable: true,
-  },
-  
-];
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+  };
 
+  // ✅ Table columns
+  const columns = [
+    {
+      name: "Date",
+      selector: (row) => formatDate(row.date),
+      sortable: true,
+    },
+    {
+      name: "Name",
+      selector: (row) => row.name ?? "N/A",
+      sortable: true,
+    },
+    {
+      name: "MSISDN",
+      selector: (row) => row.msisdn ?? "N/A",
+      sortable: true,
+    },
+    {
+      name: "DOB",
+      selector: (row) => row.dob ?? "N/A",
+      sortable: true,
+    },
+    {
+      name: "Amount",
+      selector: (row) => (row.amount != null ? row.amount : "-"),
+      sortable: true,
+    },
+    {
+      name: "Month/Year",
+      selector: (row) => row.monthYear ?? "N/A",
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status ?? "N/A",
+      sortable: true,
+    },
+  ];
 
   return (
     <div className="container-fluid">
       <div className="m-3">
         <div className="card shadow-sm">
           <div className="card-header">
-            <h3 className="card-title text-center">Check WHS Subscriptions</h3>
+            <h3 className="card-title text-center">
+              Check WHS Subscriptions
+            </h3>
           </div>
 
           <div className="card-body">
-            {/* MSISDN input form */}
-            <InputGroup className="mb-4">
+
+            {/* Input */}
+            <InputGroup className="mb-3">
               <Form.Control
-                className="col-12 col-md-8 mb-2 m-2"
                 type="text"
                 placeholder="Enter MSISDN"
                 value={msisdn}
                 onChange={handleMsisdnChange}
               />
+
               <Button
                 variant="success"
-                className="col-12 col-md-2 mb-2 m-2"
                 onClick={fetchWHSSubscriptions}
+                disabled={loading}
               >
-                Fetch Subscriptions
+                {loading ? "Loading..." : "Fetch"}
               </Button>
             </InputGroup>
 
-            {/* Error message */}
-            {error && <Alert variant="danger">{error}</Alert>}
-
-            {/* Loading spinner */}
-            {loading && (
-              <div className="spinner-border text-primary" role="status"></div>
+            {/* Alert (SUCCESS / ERROR / INFO) */}
+            {alert.message && (
+              <Alert
+                variant={
+                  alert.type === "success"
+                    ? "success"
+                    : alert.type === "info"
+                    ? "info"
+                    : "danger"
+                }
+              >
+                {alert.message}
+              </Alert>
             )}
 
-            {/* DataTable */}
+            {/* Spinner */}
+            {loading && (
+              <div className="spinner-border text-primary mb-3" />
+            )}
+
+            {/* Table */}
             <DataTable
               columns={columns}
               data={subscriptions}
@@ -148,6 +192,9 @@ const columns = [
               paginationPerPage={5}
               paginationRowsPerPageOptions={[5, 10, 15]}
               persistTableHead
+              noDataComponent={
+                !loading && "No records to display"
+              }
             />
           </div>
         </div>

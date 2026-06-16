@@ -19,6 +19,8 @@ const ChangeinProduct = () => {
     planType: '',
     coverage: '',
     details: '',
+    productCode: '',
+    productId
   });
 
   const [loading, setLoading] = useState(false);
@@ -76,7 +78,7 @@ const ChangeinProduct = () => {
           title: 'Success',
           text: response.data.message || 'Product updated successfully!',
         }).then(() => {
-          navigate('/products');
+          navigate('/Product');
         });
       } else {
         Swal.fire({
@@ -112,7 +114,7 @@ const ChangeinProduct = () => {
                 <div className="row">
                   {/* Product ID */}
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">Product ID:</label>
+                    <label className="form-label">ID:</label>
                     <input
                       type="text"
                       className="form-control"
@@ -132,48 +134,49 @@ const ChangeinProduct = () => {
                       required
                     />
                   </div>
- <div className="col-md-6 mb-3">
-                    <label className="form-label">Product Status:</label>
-                   <select
-  className="form-control"
-  name="status"
-  value={product.status}
-  onChange={handleChange}
-  required
->
-  <option value="">-- Select Status --</option>
-  <option value="Active">Active</option>
-  <option value="In-Active">In-Active</option>
-</select>
-
-                  </div>
 
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">Company Name:</label>
-                    <select
-  className="form-control"
-  name="companyName"
-  value={product.companyName}
-  onChange={handleChange}
-  required
->
-  <option value="">-- Select Company --</option>
-  <option value="Jazz_Insurance_Platform">Jazz Insurance Platform</option>
-  <option value="MiniApp">MiniApp</option>
-  <option value="Jazz">Jazz</option>
-  <option value="Ufone">Ufone</option>
-  <option value="UPaisa">UPaisa</option>
-  <option value="Zong">Zong</option>
-  <option value="Telenor">Telenor</option>
-  <option value="WebDoc">WebDoc</option>
-  <option value="JazzCash">JazzCash</option>
-  <option value="HealthLine">HealthLine</option>
-  <option value={product.companyName}>
-    {product.companyName} {/* This ensures the current saved value is also visible even if it's not in the list */}
-  </option>
-</select>
+                    <label className="form-label">Product Status:</label>
+                   <select
+                          className="form-control"
+                          name="status"
+                          value={product.status}
+                          onChange={handleChange}
+                          required
+                        >
+                    <option value="">-- Select Status --</option>
+                    <option value="Active">Active</option>
+                    <option value="In-Active">In-Active</option>
+                  </select>
 
                   </div>
+
+                 <div className="col-md-6 mb-3">
+                    <label className="form-label">Company Name:</label>
+                     <select
+                            className="form-control"
+                            name="companyName"
+                            value={product.companyName}
+                            onChange={handleChange}
+                            required
+                          >
+                <option value="">-- Select Company --</option>
+                <option value="Jazz_Insurance_Platform">Jazz Insurance Platform</option>
+                <option value="MiniApp">MiniApp</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Ufone">Ufone</option>
+                <option value="UPaisa">UPaisa</option>
+                <option value="Zong">Zong</option>
+                <option value="Telenor">Telenor</option>
+                <option value="WebDoc">WebDoc</option>
+                <option value="JazzCash">JazzCash</option>
+                <option value="HealthLine">HealthLine</option>
+                <option value={product.companyName}>
+                  {product.companyName} {/* This ensures the current saved value is also visible even if it's not in the list */}
+                </option>
+              </select>
+
+                                </div>
 
                   <div className="col-md-6 mb-3">
                     <label className="form-label">Price:</label>
@@ -198,6 +201,29 @@ const ChangeinProduct = () => {
                       required
                     />
                   </div>
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label">Product Id:</label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      name="externalId"
+                      value={product.externalId}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label">Product Code:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="webServiceUrl"
+                      value={product.webServiceUrl}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
 
                   <div className="col-md-6 mb-3">
                     <label className="form-label">Plan Type:</label>
@@ -213,6 +239,8 @@ const ChangeinProduct = () => {
                       <option value="Monthly">Monthly</option>
                       <option value="6 Month">6 Month</option>
                       <option value="Yearly">Yearly</option>
+                       <option value={product.planType}>
+                  {product.planType}</option>
                     </select>
                   </div>
 
