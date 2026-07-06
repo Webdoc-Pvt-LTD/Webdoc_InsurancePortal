@@ -1,9 +1,9 @@
-const BASE_URL = "https://localhost:7232/";  
+// const BASE_URL = "https://localhost:7232/";  
 //  const Chargingcheck_URL = "http://localhost:3500/";
 
 
-// const BASE_URL = "https://webdocinsuranceportalapi.webddocsystems.com/";
-const Chargingcheck_URL = "https://charging.6by6.co/";
+const BASE_URL = "https://webdocinsuranceportalapi.webddocsystems.com/";
+const Chargingcheck_URL = "https://charging.webddocsystems.com/";
 
 
 const SMSURL = "http://digital.webdoc.com.pk:3100/";
