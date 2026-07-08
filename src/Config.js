@@ -9,3 +9,4 @@ const Chargingcheck_URL = "https://charging.webddocsystems.com/";
 const SMSURL = "http://digital.webdoc.com.pk:3100/";
 
 export { BASE_URL, Chargingcheck_URL,SMSURL };
+ 
