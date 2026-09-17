@@ -110,8 +110,14 @@ const WHS_Subscription = () => {
       sortable: true,
     },
     {
+      name: "Service",
+      selector: (row) =>
+        row.serviceName ?? row.service ?? row.productName ?? "N/A",
+      sortable: true,
+    },
+    {
       name: "DOB",
-      selector: (row) => row.dob ?? "N/A",
+      selector: (row) => formatDate(row.dob),
       sortable: true,
     },
     {
