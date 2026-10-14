@@ -58,8 +58,7 @@ const Key_Account_Manager_Header = () => {
 
             <Navbar
                 expand="lg"
-                className="bg-body-tertiary"
-                style={{ borderRadius: "25px" }}
+                className="portal-navbar bg-body-tertiary"
             >
                 <Container>
                     <Navbar.Brand href="#">
@@ -77,7 +76,7 @@ const Key_Account_Manager_Header = () => {
                                     <Nav.Link href="/Product">Product</Nav.Link>
                                     <Nav.Link href="/CheckPolicy">CheckPolicy</Nav.Link>
 
-                                    <div className="d-flex ms-auto">
+                                    <div className="d-flex ms-lg-auto portal-user-actions">
                                         <Nav.Link className="text-end">
                                             {userData?.name}
                                         </Nav.Link>

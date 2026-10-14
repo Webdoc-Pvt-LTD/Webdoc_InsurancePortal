@@ -7,6 +7,86 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+.portal-navbar {
+  margin: 0.75rem 0;
+  border-radius: 1rem !important;
+}
+
+.portal-navbar .navbar-brand {
+  flex-shrink: 0;
+}
+
+.portal-user-actions {
+  min-width: 0;
+}
+
+.table-responsive {
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 991.98px) {
+  .portal-navbar {
+    margin: 0.5rem 0;
+  }
+
+  .portal-navbar .navbar-collapse {
+    padding-top: 0.5rem;
+  }
+
+  .portal-user-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0 !important;
+    padding-top: 0.25rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .container-fluid {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

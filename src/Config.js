@@ -4,8 +4,9 @@
 
 const BASE_URL = "https://webdocinsuranceportalapi.webddocsystems.com/";
 const Chargingcheck_URL = "https://charging.webddocsystems.com/";
+const ASKARI_API_URL = "https://askarisandbox.webddocsystems.com/";
 
 
 const SMSURL = "http://digital.webdoc.com.pk:3100/";
 
-export { BASE_URL, Chargingcheck_URL,SMSURL };
+export { BASE_URL, Chargingcheck_URL, SMSURL, ASKARI_API_URL };

@@ -117,7 +117,7 @@ const ClaimRecord = () => {
               ) : filteredClaims.length === 0 ? (
                 <p>No claim records available for this MSISDN.</p>
               ) : (
-                <div>
+                <div className="table-responsive">
                   <table className="table table-striped">
                     <thead>
                       <tr>
