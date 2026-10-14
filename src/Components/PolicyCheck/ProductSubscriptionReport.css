@@ -1,0 +1,28 @@
+.text-ellipsis {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.status-active {
+  background-color: #28a745;
+}
+
+.status-pending {
+  background-color: #ffc107;
+  color: black;
+}
+
+.status-expired {
+  background-color: #dc3545;
+}

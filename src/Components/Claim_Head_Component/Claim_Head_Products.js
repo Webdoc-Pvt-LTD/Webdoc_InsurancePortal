@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Container, Button } from "react-bootstrap";
+import {
+  Container,
+  Button,
+  Modal,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import { CSVLink } from "react-csv";
@@ -10,8 +16,12 @@ const Claim_Head_Products = () => {
   const [packages, setPackages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCompany, setSelectedCompany] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
   const navigate = useNavigate();
 
+  // 🔹 Fetch products
   useEffect(() => {
     axios
       .get(`${BASE_URL}Products`, {
@@ -27,9 +37,10 @@ const Claim_Head_Products = () => {
       .catch((error) => console.error("Error fetching packages:", error));
   }, []);
 
+  // 🔹 Get unique company list
   const uniqueCompanies = [...new Set(packages.map((pkg) => pkg.companyName))];
 
-  // Function to filter the packages based on the search term
+  // 🔹 Filter based on search term & selected company
   const filteredPackages = packages
     .filter((pkg) => {
       const lowercasedSearchTerm = searchTerm.toLowerCase();
@@ -52,64 +63,119 @@ const Claim_Head_Products = () => {
       );
     })
     .filter((pkg) => {
-      if (selectedCompany === "") return true; // If no company selected, show all
-      return pkg.companyName === selectedCompany; // Filter by selected company
+      if (selectedCompany === "") return true;
+      return pkg.companyName === selectedCompany;
     });
+
+  // 🔹 Navigate to edit
   const handleDetailsClick = (id) => {
     navigate(`/ProductEdit/${id}`);
   };
-  // Columns definition for DataTable
+
+  // 🔹 Modal handlers
+  const handleViewDetails = (row) => {
+    setModalTitle(row.productName);
+    setModalContent(row.details);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setModalContent("");
+    setModalTitle("");
+  };
+
+  // 🔹 Helper: render text with tooltip + ellipsis
+  const renderWithTooltip = (text, maxLength = 25) => {
+    if (!text) return "-";
+    const displayText =
+      text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+    return (
+      <OverlayTrigger
+        placement="top"
+        overlay={
+          <Tooltip
+            id={`tooltip-${Math.random()}`}
+            style={{ whiteSpace: "pre-wrap", maxWidth: "400px" }}
+          >
+            {text}
+          </Tooltip>
+        }
+      >
+        <span
+          style={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "inline-block",
+            maxWidth: "180px",
+            cursor: "pointer",
+          }}
+        >
+          {displayText}
+        </span>
+      </OverlayTrigger>
+    );
+  };
+
+  // 🔹 Table columns
   const columns = [
     {
       name: "Id",
       selector: (row) => row.id,
       sortable: true,
+      width: "80px",
     },
     {
       name: "Product Name",
-      selector: (row) => row.productName,
+      cell: (row) => renderWithTooltip(row.productName),
       sortable: true,
     },
     {
       name: "Company",
-      selector: (row) => row.companyName,
+      cell: (row) => renderWithTooltip(row.companyName),
       sortable: true,
     },
     {
       name: "Price",
       selector: (row) => row.price,
       sortable: true,
+      width: "100px",
     },
     {
       name: "Category",
-      selector: (row) => row.category || "-",
+      cell: (row) => renderWithTooltip(row.category),
       sortable: true,
     },
     {
       name: "Plan Type",
-      selector: (row) => row.planType || "-",
+      cell: (row) => renderWithTooltip(row.planType),
       sortable: true,
     },
     {
       name: "Coverage",
-      selector: (row) => row.coverage,
+      cell: (row) => renderWithTooltip(row.coverage),
       sortable: true,
     },
     {
       name: "Details",
-      selector: (row) => row.details || "-",
       cell: (row) => (
-        <div dangerouslySetInnerHTML={{ __html: row.details || "-" }} />
+        <Button
+          variant="info"
+          className="m-1 w-75"
+          onClick={() => handleViewDetails(row)}
+        >
+          View
+        </Button>
       ),
     },
     {
       name: "Action",
-      selector: (row) => row.details || "-",
       cell: (row) => (
         <Button
           variant="primary"
           onClick={() => handleDetailsClick(row.id)}
-          className="m-2 w-100"
+          className="m-1 w-100"
         >
           Edit
         </Button>
@@ -138,7 +204,7 @@ const Claim_Head_Products = () => {
             <div className="col-12 col-md-3">
               <button
                 type="button"
-                className="btn btn-primary w-100 "
+                className="btn btn-primary w-100"
                 onClick={() => navigate("/ProductCreate")}
               >
                 Add Product
@@ -147,8 +213,8 @@ const Claim_Head_Products = () => {
           </div>
         </div>
 
-        {/* Dropdown to select company */}
         <div className="card-body">
+          {/* Company Filter */}
           <div className="row mb-3">
             <div className="col-md-4">
               <select
@@ -166,21 +232,23 @@ const Claim_Head_Products = () => {
             </div>
           </div>
 
+          {/* DataTable */}
           <DataTable
             columns={columns}
-            data={filteredPackages} // Display filtered data
+            data={filteredPackages}
             pagination
             responsive
             highlightOnHover
             dense
-            defaultSortFieldId={1} // Default sort by the first column
-            paginationPerPage={10} // Set number of items per page
-            paginationRowsPerPageOptions={[5, 10, 15, 20]} // Pagination options
+            defaultSortFieldId={1}
+            paginationPerPage={10}
+            paginationRowsPerPageOptions={[5, 10, 15, 20]}
           />
 
+          {/* CSV Download */}
           <div className="d-flex justify-content-between mb-3">
             <CSVLink
-              data={filteredPackages} // Download filtered data as CSV
+              data={filteredPackages}
               filename={"packages.csv"}
               className="btn btn-success w-100"
               target="_blank"
@@ -190,6 +258,25 @@ const Claim_Head_Products = () => {
           </div>
         </div>
       </div>
+
+      {/* 🟣 Modal for viewing details */}
+      <Modal show={showModal} onHide={handleCloseModal} size="lg" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{modalTitle}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ maxHeight: "70vh", overflowY: "auto" }}>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: modalContent || "<p>No details available.</p>",
+            }}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

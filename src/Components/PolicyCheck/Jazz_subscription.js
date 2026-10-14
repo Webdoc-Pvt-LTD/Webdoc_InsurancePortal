@@ -128,7 +128,7 @@ const TelenorSubscriptions = () => {
             <InputGroup className="mb-3">
               <Form.Control
                 type="text"
-                placeholder="Enter MSISDN"
+                placeholder="Enter MSISDN 300*******"
                 value={msisdn}
                 onChange={handleMsisdnChange}
                 maxLength={15}

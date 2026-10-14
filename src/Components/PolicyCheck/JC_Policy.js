@@ -108,7 +108,7 @@ const JC_Policy = () => {
               <Form.Control
               className="col-12 col-md-8 mb-2 m-2"
                 type="text"
-                placeholder="Enter MSISDN"
+                placeholder="Enter MSISDN 923001234567"
                 value={msisdn}
                 onChange={handleMsisdnChange}
               />

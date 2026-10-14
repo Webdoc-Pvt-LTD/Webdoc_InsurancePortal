@@ -5,6 +5,8 @@ import Zong_Subscription from "../Components/PolicyCheck/zong_subscription";
 import Telenor_subscription from "../Components/PolicyCheck/Telenor_subscription";
 import Ufone_subscription from "../Components/PolicyCheck/Ufone_subscription";
 import Jazz_Subscription from "../Components/PolicyCheck/Jazz_subscription";
+import Product_Subscription_Report from "../Components/PolicyCheck/Product_Subscription_Report";
+import Askari_Subscription from "../Components/PolicyCheck/Askari_Subscription";
 
 import AgentCRO_Header from "../Components/AgentCRO/AgentCRO_Header";
 import Claim_Head_Header from "../Components/Claim_Head_Component/Claim_Head_Header";
@@ -44,7 +46,7 @@ const CheckPolicy = () => {
           <Tab eventKey="jc_policy" title="JazzCash Policy">
             <JC_Policy />
           </Tab>
-          <Tab eventKey="whs_subscription" title="WHS Subscription">
+          <Tab eventKey="whs_subscription" title="EasyPaise Policy">
             <WHS_Subscription />
           </Tab>
           <Tab eventKey="zong_subscription" title="Zong Policy">
@@ -57,7 +59,12 @@ const CheckPolicy = () => {
         <Tab eventKey="Jazz_subscription" title="Jazz Policy">
             <Jazz_Subscription />
           </Tab>
-          
+           <Tab eventKey="Telenor_subscription" title="Telenor Policy">
+            <Telenor_subscription />
+          </Tab>
+          <Tab eventKey="askari_subscription" title="Askari Subscription">
+            <Askari_Subscription />
+          </Tab>
           </Tabs>
       </div>
     );
@@ -68,10 +75,21 @@ const CheckPolicy = () => {
     return (
       <div className="container-fluid">
         <Key_Account_Manager_Header />
+        
+        <Tabs>
+          <Tab eventKey="JC_Policy" title="JazzCash Policy">
         <JC_Policy />
-        <Tab eventKey="Jazz_subscription" title="Jazz Policy">
-            <Jazz_Subscription />
           </Tab>
+           <Tab eventKey="Product_Subscription_Report" title="Fikrfree/Ufone Policy">
+        <Product_Subscription_Report />
+          </Tab>
+           <Tab eventKey="Jazz_subscription" title="Jazz Policy">
+            <Jazz_Subscription />
+          </Tab><Tab eventKey="Ufone_subscription" title="Ufone Policy">
+            <Ufone_subscription />
+          </Tab> 
+        </Tabs>
+        
       </div>
     );
   }
@@ -91,7 +109,7 @@ const CheckPolicy = () => {
           <Tab eventKey="jc_policy" title="JazzCash Policy">
             <JC_Policy />
           </Tab>
-          <Tab eventKey="whs_subscription" title="WHS Policy">
+          <Tab eventKey="whs_subscription" title="EasyPaise Policy">
             <WHS_Subscription />
           </Tab>
           <Tab eventKey="zong_subscription" title="Zong Policy">
@@ -103,6 +121,9 @@ const CheckPolicy = () => {
           <Tab eventKey="Ufone_subscription" title="Ufone Policy">
             <Ufone_subscription />
           </Tab> 
+          <Tab eventKey="askari_subscription" title="Askari Subscription">
+            <Askari_Subscription />
+          </Tab>
           <Tab eventKey="Jazz_subscription" title="Jazz Policy">
             <Jazz_Subscription />
           </Tab> 
