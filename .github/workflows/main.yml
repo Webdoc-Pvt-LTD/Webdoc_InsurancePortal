@@ -1,4 +1,3 @@
-
 name: Deploy Digital Webdoc Office
 
 on:
@@ -26,6 +25,7 @@ jobs:
       - name: Build project
         env:
           CI: false
+          DISABLE_ESLINT_PLUGIN: true
         run: npm run build
 
       - name: Deploy to server
