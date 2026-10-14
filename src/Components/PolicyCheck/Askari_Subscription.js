@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Alert, Badge, Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
 import axios from "axios";
 import { ASKARI_API_URL } from "../../Config";
-
+ ``
 const formatDate = (value) => {
   if (!value) return "N/A";
   const date = new Date(value);
