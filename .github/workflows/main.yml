@@ -3,7 +3,7 @@ name: Deploy Digital Webdoc Office
 on:
   push:
     branches:
-      - main
+      - fahad
 
 jobs:
   build-and-deploy:
