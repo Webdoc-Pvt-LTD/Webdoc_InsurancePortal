@@ -222,8 +222,9 @@ const ClaimApproval = () => {
       ) : data.length === 0 ? (
         <p>No data available</p> // Show message if no data is returned
       ) : (
-        <table {...getTableProps()} className="table table-responsive">
-          <thead>
+        <div className="table-responsive">
+          <table {...getTableProps()} className="table">
+            <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
                 {headerGroup.headers.map((column) => (
@@ -247,8 +248,9 @@ const ClaimApproval = () => {
                 </tr>
               );
             })}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

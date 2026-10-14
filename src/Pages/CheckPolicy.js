@@ -6,6 +6,7 @@ import Telenor_subscription from "../Components/PolicyCheck/Telenor_subscription
 import Ufone_subscription from "../Components/PolicyCheck/Ufone_subscription";
 import Jazz_Subscription from "../Components/PolicyCheck/Jazz_subscription";
 import Product_Subscription_Report from "../Components/PolicyCheck/Product_Subscription_Report";
+import Askari_Subscription from "../Components/PolicyCheck/Askari_Subscription";
 
 import AgentCRO_Header from "../Components/AgentCRO/AgentCRO_Header";
 import Claim_Head_Header from "../Components/Claim_Head_Component/Claim_Head_Header";
@@ -60,6 +61,9 @@ const CheckPolicy = () => {
           </Tab>
            <Tab eventKey="Telenor_subscription" title="Telenor Policy">
             <Telenor_subscription />
+          </Tab>
+          <Tab eventKey="askari_subscription" title="Askari Subscription">
+            <Askari_Subscription />
           </Tab>
           </Tabs>
       </div>
@@ -117,6 +121,9 @@ const CheckPolicy = () => {
           <Tab eventKey="Ufone_subscription" title="Ufone Policy">
             <Ufone_subscription />
           </Tab> 
+          <Tab eventKey="askari_subscription" title="Askari Subscription">
+            <Askari_Subscription />
+          </Tab>
           <Tab eventKey="Jazz_subscription" title="Jazz Policy">
             <Jazz_Subscription />
           </Tab> 

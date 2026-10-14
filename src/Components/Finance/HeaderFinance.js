@@ -51,7 +51,7 @@ const HeaderFinance = () => {
     };
 
     return (
-        <Navbar expand="lg" className="bg-body-tertiary" style={{ borderRadius: "25px" }}>
+        <Navbar expand="lg" className="portal-navbar bg-body-tertiary">
             <Container>
                 <Navbar.Brand href="#">
                     <img src="/Webdoc.png" style={{ width: "100px" }} alt="logo" />
@@ -65,7 +65,7 @@ const HeaderFinance = () => {
                                 <Nav.Link href={`/Dashboard`}>Dashboard</Nav.Link>
                                 
 
-                                <div className="d-flex ms-auto">
+                                <div className="d-flex ms-lg-auto portal-user-actions">
                                     <Nav.Link className="text-end">{userData?.name}</Nav.Link>
                                     {/* Logout Section */}
                                     <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
