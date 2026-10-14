@@ -35,7 +35,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 2222
           source: build/
-          target: /var/www/digital.webdocoffice.com.pk/
+          target: /var/www/html/insuranceportalwebdoc
           strip_components: 1
           overwrite: true
           rm: false
